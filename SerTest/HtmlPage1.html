@@ -1,0 +1,65 @@
+﻿<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+
+    <script src="Scripts/jquery-1.10.2.js"></script>
+</head>
+<body>
+    <div style="text-align:center;">
+        <div>用户名：<input type="text" id="txt_username" /></div>
+        <div>密  码：<input type="password" id="txt_password" /></div>
+        <div><input type="button" value="登录" id="btn_login" class="btn-default" /></div>
+    </div>
+</body>
+</html>
+<script>
+//    //跨域代码
+//    jQuery.support.cors = true;//支持IE9以下的跨域
+//    var ApiUrl = "http://localhost:52270/";
+//$(function () {
+//    $.ajax({
+//        type: "get",
+//        url: ApiUrl + "api/Order",
+//        data: {},
+//        success: function (data, status) {
+//            if (status == "success") {
+//                $("#div_test").html(data);
+//            }
+//        },
+//        error: function (e) {
+//            $("#div_test").html("Error");
+//        },
+//        complete: function () {
+
+//        }
+//    });
+    //});
+
+    $(function () {
+        $("#btn_login").click(function () {
+            $.ajax({
+                type: "get",
+                url: "http://localhost:52270/api/Order/Login",
+                data: { strUser: $("#txt_username").val(), strPwd: $("#txt_password").val() },
+                success: function (data, status) {
+                    if (status == "success") {
+                        if (!data.bRes) {
+                            alert("登录失败");
+                            return;
+                        }
+                        alert("登录成功");
+                        //登录成功之后将用户名和用户票据带到主界面
+                        window.location = "/Home/Index?UserName=" + data.UserName + "&Ticket=" + data.Ticket;
+                    }
+                },
+                error: function (e) {
+                },
+                complete: function () {
+
+                }
+
+            });
+        });
+    });
+</script>
